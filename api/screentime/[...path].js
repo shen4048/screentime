@@ -1,6 +1,9 @@
 import { Redis } from '@upstash/redis';
 
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
 
 export default async function handler(req, res) {
   const { path = [] } = req.query;
@@ -28,7 +31,7 @@ async function handleToggle(res, app) {
   await redis.set(
     `log:${now}:${app}`,
     { app, action: nextAction, ts: now },
-    { ex: 86400 } // 24小时过期
+    { ex: 86400 }
   );
   return res.status(200).json({
     ok: true, app, action: nextAction,
