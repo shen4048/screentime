@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/screentime/:path*", "destination": "/api/screentime/[...path]" }
+  ]
+}
